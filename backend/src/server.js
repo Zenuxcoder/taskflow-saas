@@ -10,6 +10,8 @@ const healthRoutes = require("./routes/healthRoutes")
 
 const authRoutes = require("./routes/authRoutes")
 
+const workspaceRoutes = require("./routes/workspaceRoutes");
+
 const app = express()
 
 app.use(express.json())
@@ -19,6 +21,8 @@ app.use(cookieParser());
 app.use("/" ,healthRoutes)
 
 app.use("/api/auth" ,authRoutes)
+
+app.use("/api/workspaces", workspaceRoutes);
 
 connectDB()
 
