@@ -139,7 +139,7 @@ const getWorkspaceById =  async (req,res) => {
   try{
     const workspaceId = req.params.workspaceId;
     const userId = req.user.id;
-    const name = req.body.name;
+    let name = req.body.name;
     const description = req.body.description;
 
     if(!name && !description){
