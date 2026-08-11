@@ -5,9 +5,9 @@ const Workspace = require("../models/Workspace")
 const createProject = async (req , res) => {
 
   try{
-  let name = req.body.name,
-  const description= req.body.description,
-  const workspaceId = req.params.workspaceId,
+  let name = req.body.name;
+  const description= req.body.description;
+  const workspaceId = req.params.workspaceId;
   const userId = req.user.id
   
 
@@ -94,7 +94,7 @@ const getProjects = async( req,res) => {
 
     try{
 
-    const workspaceId = req.params.workspaceId,
+    const workspaceId = req.params.workspaceId;
     const userId = req.user.id 
 
     const workspace = await Workspace.findOne({
