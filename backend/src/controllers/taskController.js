@@ -2,6 +2,7 @@ const Project = require("../models/Project");
 const Task = require("../models/Tasks");
 const Workspace = require("../models/Workspace")
 const User = require("../models/User")
+const Notification = require("../models/Notification")
 
 
 const createTask = async(req,res) => {
@@ -259,6 +260,12 @@ const updateTask = async (req,res) => {
             })
         }
 
+        const oldAssignee = task.assignedTo;
+
+        const assigneeChanged = "assignedTo" in req.body && assignedTo 
+                              && userId.toString() !== assignedTo.toString()
+                              && (!oldAssignee || oldAssignee.toString() !== assignedTo.toString())
+
         if(title){
             title = title.trim() 
             if(title === ""){
@@ -284,16 +291,13 @@ const updateTask = async (req,res) => {
                 message:"workspace not found"
             })
         }
+        task.assignedTo = assignedTo
         }
     }
 
         
        if (title) {
          task.title = title
-           }
-
-        if (assignedTo) {
-          task.assignedTo = assignedTo
            }
 
        if ("description" in req.body) {
@@ -314,9 +318,19 @@ const updateTask = async (req,res) => {
 
         await task.save()
 
+        if(assigneeChanged){
+            await Notification.create({
+                recipient: assignedTo,
+                actor: userId,
+                type:"TASK_ASSIGNED",
+                task:taskId,
+                message:"You have been assigned a task"
+            })
+        }
+
         return res.status(200).json({
             success:true,
-            message:"Task updatedd successfully",
+            message:"Task updated successfully",
             task
         })
     }

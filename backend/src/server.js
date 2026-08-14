@@ -18,6 +18,8 @@ const taskRoutes = require("./routes/taskRoutes")
 
 const commentRoutes = require("./routes/commentRoutes")
 
+const notificationRoutes = require("./routes/notificationRoutes");
+
 const app = express()
 
 app.use(express.json())
@@ -35,6 +37,8 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 
 app.use("/api/comments", commentRoutes)
+
+app.use("/api/notifications", notificationRoutes);
 
 connectDB()
 
